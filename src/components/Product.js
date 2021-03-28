@@ -36,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Product() {
+export default function Product({
+  product: { id, name, productType, price, rating, image, description },
+}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -53,27 +55,23 @@ export default function Product() {
             variant="h5"
             color="textSecondary"
           >
-            {accounting.formatMoney(949, "US$")}
+            {accounting.formatMoney(price, "US$")}
           </Typography>
         }
-        title="HP Omen 15"
+        title={name}
         subheader="In Stock"
       />
-      <CardMedia
-        className={classes.media}
-        image="https://publicapi.solotodo.com/products/85723/picture/?width=1000&height=520"
-        title="HP Omen 15-EK0010LA"
-      />
+      <CardMedia className={classes.media} image={image} title={name} />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          Intel Core i5-10300H / 8 GB RAM / NVIDIA GeForce RTX 2060 (6 GB)
+          {productType}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Add to Cart">
           <AddShoppingCart fontSize="large" />
         </IconButton>
-        {Array(4)
+        {Array(rating)
           .fill()
           .map((_, i) => (
             <p>&#11088;</p>
@@ -91,16 +89,7 @@ export default function Product() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>
-            Características Procesador Intel Core i5-10300H (4 núcleos / 8 hilos
-            / 2500 MHz - 4500 MHz) RAM 8 GB DDR4 (2933 MHz) Pantalla LED 15.6"
-            (1920x1080) / 60 Hz Batería 6 celdas (70900 mWh) Almacenamiento SSD
-            512GB Tarjetas de video Intel UHD Graphics 630 (Integrada) NVIDIA
-            GeForce RTX 2060 (6 GB) Puertos 1x HDMI 2.0 1x Mini DisplayPort 1x
-            RJ45 (10 / 100 / 1000 Mbps) 3x SuperSpeed USB 5Gbps Type-A (USB 3.0
-            / USB 3.1 Gen 1 / USB 3.2 Gen 1) 1x Thunderbolt 3 (con señal HDMI /
-            DisplayPort)
-          </Typography>
+          <Typography paragraph>{description}</Typography>
         </CardContent>
       </Collapse>
     </Card>
