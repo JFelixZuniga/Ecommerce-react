@@ -1,10 +1,10 @@
-import Product from "./components/Product";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Products from "./components/Products";
-import CheckoutCard from "./components/CheckoutCard";
 import CheckoutPage from "./components/CheckoutPage";
 import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import SignIn from "./components/Signin";
+import SignUp from "./components/Signup";
 
 function App() {
   return (
@@ -12,6 +12,12 @@ function App() {
       <div className="App">
         <Navbar />
         <Switch>
+          <Route path="/signin">
+            <SignIn />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
           <Route path="/checkout-page">
             <CheckoutPage />
           </Route>

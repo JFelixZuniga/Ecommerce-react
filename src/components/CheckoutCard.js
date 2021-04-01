@@ -5,10 +5,10 @@ import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
-// import { useStateValue } from "../StateProvider";
-import accounting from "accounting";
-// import { actionTypes } from "../reducer";
 import { makeStyles } from "@material-ui/core";
+import accounting from "accounting";
+import { actionTypes } from "../reducer";
+import { useStateValue } from "../StateProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
 
 const CheckoutCard = ({ product: { id, name, image, price, rating } }) => {
   const classes = useStyles();
-  // const [{ basket }, dispatch] = useStateValue();
+  const [{ basket }, dispatch] = useStateValue();
 
-  // const removeItem = () => {
-  //   dispatch({
-  //     type: actionTypes.REMOVE_ITEM,
-  //     id: id,
-  //   });
-  // };
+  const removeItem = () => {
+    dispatch({
+      type: actionTypes.REMOVE_ITEM,
+      id: id,
+    });
+  };
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -66,7 +66,7 @@ const CheckoutCard = ({ product: { id, name, image, price, rating } }) => {
             ))}
         </div>
         <IconButton>
-          <DeleteIcon fontSize="large" />
+          <DeleteIcon fontSize="large" onClick={removeItem} />
         </IconButton>
       </CardActions>
     </Card>

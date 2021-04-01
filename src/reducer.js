@@ -11,7 +11,7 @@ export const actionTypes = {
 };
 
 export const getBasketTotal = (basket) =>
-  basket?.reduce((amount, item) => item.price + amount, 0);
+  basket?.reduce((acc, item) => item.price + acc, 0);
 
 const reducer = (state, action) => {
   console.log(action);
