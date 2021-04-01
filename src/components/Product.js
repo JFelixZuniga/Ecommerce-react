@@ -12,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { AddShoppingCart } from "@material-ui/icons";
 import accounting from "accounting";
+import { actionTypes } from "../reducer";
+import { useStateValue } from "../StateProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,10 +42,26 @@ export default function Product({
   product: { id, name, productType, price, rating, image, description },
 }) {
   const classes = useStyles();
+  const [{ basket }, dispatch] = useStateValue();
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const addToBasket = () => {
+    dispatch({
+      type: actionTypes.ADD_TO_BASKET,
+      item: {
+        id: id,
+        name: name,
+        productType: productType,
+        image: image,
+        price: price,
+        rating: rating,
+        description: description,
+      },
+    });
   };
 
   return (
@@ -59,7 +77,7 @@ export default function Product({
           </Typography>
         }
         title={name}
-        subheader="In Stock"
+        subheader="Disponible"
       />
       <CardMedia className={classes.media} image={image} title={name} />
       <CardContent>
@@ -68,7 +86,7 @@ export default function Product({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Add to Cart">
+        <IconButton aria-label="Add to Cart" onClick={addToBasket}>
           <AddShoppingCart fontSize="large" />
         </IconButton>
         {Array(rating)
