@@ -9,6 +9,9 @@ import { ShoppingCart } from "@material-ui/icons";
 import { Badge, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import { auth } from "../firebase";
+import { actionTypes } from "../reducer";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +36,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
+  const history = useHistory();
+
+  const handleAuth = () => {
+    if (user) {
+      auth.signOut();
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        basket: [],
+      });
+      dispatch({
+        type: actionTypes.SET_USER,
+        basket: null,
+      });
+      history.push("/");
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -47,12 +66,12 @@ export default function Navbar() {
 
           <div className={classes.grow} />
           <Typography variant="h6" color="textPrimary" component="p">
-            Hola invitado
+            {user ? user.email : "Hola invitado"}
           </Typography>
           <div className={classes.button}>
             <Link to="/signin">
-              <Button variant="outlined">
-                <strong>Iniciar Sesión</strong>
+              <Button variant="outlined" onClick={handleAuth}>
+                <strong>{user ? "Salir" : "Iniciar Sesión"}</strong>
               </Button>
             </Link>
 
